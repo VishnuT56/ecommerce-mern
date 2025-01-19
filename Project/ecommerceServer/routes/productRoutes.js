@@ -3,6 +3,8 @@ const Product = require('../models/Product');
 const Razorpay = require('razorpay');
 require('dotenv').config();
 
+const authMiddleware=require('../middleware/authMiddleware')
+
 const router = express.Router();
 
 // Fetch all products
@@ -55,7 +57,7 @@ const razorpay = new Razorpay({
 });
 
 // Create Razorpay Order
-router.post('/upiPayment', async (req, res) => {
+router.post('/upiPayment', authMiddleware, async (req, res) => {
   try {
     const { amount, email } = req.body;
     console.log(`Received Amount: ${amount}, Email: ${email}`);
